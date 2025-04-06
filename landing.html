@@ -65,7 +65,7 @@
   </div>
 
   <audio id="bgMusic" autoplay loop>
-    <source src="cute-music.mp3" type="audio/mpeg" />
+    <source src="sparks.mp3" type="audio/mpeg" />
   </audio>
 
   <script>
@@ -99,6 +99,12 @@
       ctx.beginPath();
       ctx.arc(pos.x, pos.y, 20, 0, Math.PI * 2, false);
       ctx.fill();
+canvas.addEventListener('pointermove', (e) => {
+  if (!isDrawing) return;
+  ctx.lineTo(e.offsetX, e.offsetY);
+  ctx.stroke();
+  startMusicOnScratch(); // ⬅️ This triggers music on first scratch
+});
     }
 
     canvas.addEventListener("mousedown", () => isDrawing = true);
@@ -108,6 +114,17 @@
     canvas.addEventListener("touchstart", () => isDrawing = true);
     canvas.addEventListener("touchend", () => isDrawing = false);
     canvas.addEventListener("touchmove", scratch);
+const music = new Audio("sparks.mp3");
+music.loop = true;
+let musicStarted = false;
+
+function startMusicOnScratch() {
+  if (!musicStarted) {
+    music.play();
+    musicStarted = true;
+  }
+}
+
   </script>
 </body>
 </html>
